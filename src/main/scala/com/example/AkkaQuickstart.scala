@@ -18,7 +18,7 @@ object AkkaQuickstart extends App {
 
   val greeter = system.actorOf(Props[Greeter], "greeter")
 
-  greeter ! WhotoGreet("Mohith")
+  greeter ! WhotoGreet("Test")
 
   system.terminate()
 }
