@@ -15,7 +15,7 @@ object UserStorage {
   }
   case object Connect
   case object Disconnect
-  case class Operation(DBOperation: DBOperation, user: UserWithEmail)
+  case class Operation(DBOperation: DBOperation, user: UserWithEmailFSM)
 }
 
 class UserStorage extends Actor with Stash {
@@ -48,7 +48,7 @@ object BecomeTest extends App {
 
   val userStorageActor = system.actorOf(Props[UserStorage], "user-storage")
 
-  userStorageActor ! Operation(Create, UserWithEmail("mohith", "test@test.com"))
+  userStorageActor ! Operation(Create, UserWithEmailFSM("mohith", "test@test.com"))
   userStorageActor ! Connect
   userStorageActor ! Disconnect
 

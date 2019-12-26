@@ -130,3 +130,5 @@ Change actor behaviour in run time
 - unstashAll()
 - Order is preserved
 
+## FSM
+A FSM is State(S) X Events(E) -> Action(A), State(S')

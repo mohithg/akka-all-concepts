@@ -15,7 +15,7 @@ case class User(username: String, email: String)
 object Recorder {
   sealed trait RecorderMsg
 
-  case class NewUser(user: UserWithEmail) extends RecorderMsg
+  case class NewUser(user: UserWithEmailFSM) extends RecorderMsg
 
   def props(checker: ActorRef, storage: ActorRef) =
     Props(new Recorder(checker, storage))
@@ -41,15 +41,15 @@ class Recorder(checker: ActorRef, storage: ActorRef) extends Actor {
 
 object Checker {
   sealed trait CheckerMsg
-  case class CheckUser(user: UserWithEmail) extends CheckerMsg
+  case class CheckUser(user: UserWithEmailFSM) extends CheckerMsg
 
   sealed trait CheckerResponse
-  case class BlackUser(user: UserWithEmail) extends CheckerResponse
-  case class WhiteUser(user: UserWithEmail) extends CheckerResponse
+  case class BlackUser(user: UserWithEmailFSM) extends CheckerResponse
+  case class WhiteUser(user: UserWithEmailFSM) extends CheckerResponse
 }
 
 class Checker extends Actor {
-  val blackListed = Seq(UserWithEmail("Test", "test@test.com"))
+  val blackListed = Seq(UserWithEmailFSM("Test", "test@test.com"))
   override def receive: Receive = {
     case CheckUser(user) if blackListed.contains(user) =>
       println(s"Detected black listed user $user")
@@ -64,11 +64,11 @@ class Checker extends Actor {
 object Storage {
   sealed trait StorageMsg
 
-  case class AddUser(user: UserWithEmail) extends StorageMsg
+  case class AddUser(user: UserWithEmailFSM) extends StorageMsg
 }
 
 class Storage extends Actor {
-  val users= Seq.empty[UserWithEmail]
+  val users= Seq.empty[UserWithEmailFSM]
   override def receive: Receive = {
     case AddUser(user) =>
       println(s"User Added.... $user")
@@ -83,7 +83,7 @@ object UserCreator extends App {
   val checker = system.actorOf(Props[Checker], "checker")
   val recorder = system.actorOf(Recorder.props(checker, storage), "recorder")
 
-  recorder ! Recorder.NewUser(UserWithEmail("Tet", "test@test.com"))
+  recorder ! Recorder.NewUser(UserWithEmailFSM("Tet", "test@test.com"))
 
   Thread.sleep(100)
 
