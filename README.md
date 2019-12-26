@@ -85,6 +85,7 @@ Extend Actor trait and ovverride Receive
 - Ask (?) Returns a future with reply
 
 ## Supervisor
+- Mostly for failed ones (take action)
 - Parent creates child, so parent reacts when child fails
 - Parent is kind of supervisor for the child
 Parent has 4 choices
@@ -93,5 +94,9 @@ Parent has 4 choices
 - Escalate (Parent dies and sends it to its parent)
 - Stop (stops the child permanently)
 
+Supervision Strategies
+- One for One Strategy => Parent will apply only on child (recommend)
+- One for all Strategy => Parent will apply on all children
 
-
+## Monitoring
+- For actors that are terminated (take action)
