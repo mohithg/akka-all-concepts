@@ -100,3 +100,20 @@ Supervision Strategies
 
 ## Monitoring
 - For actors that are terminated (take action)
+
+## Actor Ref
+- Actor ref is interface of actor instance
+- Reference for actor
+- Created when actor is created, but still pointed to same actor when restart
+- Points to DeadLetter when actor is shutdown
+- When new actor instance is created ActorRef is created again
+
+## Actor Path
+/user/ActorA/ActorB - location of path in the system tree
+recursive link following the supervisors
+
+Diff is ActorPath is name based but ActorRef is reference based (so unique)
+
+## Actor Selection
+- Actor selection is created from name or path (not with reference)
+
