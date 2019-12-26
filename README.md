@@ -118,5 +118,15 @@ Diff is ActorPath is name based but ActorRef is reference based (so unique)
 - Actor selection is created from name or path (not with reference)
 
 ## Routing in Akka
+Routers can forward stuff to another actor
+Use predefined routers mostly
 
+## Become/Unbecome
+Change actor behaviour in run time
+
+## Stash Messages
+- Stash trait enables actor to temporarily stash messages
+- stash()
+- unstashAll()
+- Order is preserved
 
