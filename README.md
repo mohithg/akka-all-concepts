@@ -132,3 +132,36 @@ Change actor behaviour in run time
 
 ## FSM
 A FSM is State(S) X Events(E) -> Action(A), State(S')
+
+## Akka Persistence
+Actor contains variable count, if actor crash then we lose internal state
+We need to store the data of the actor, so when it restarts get it from external state
+
+So in Akka we don't store the internal state, we just store the events so that the internal state can be recovered from the states
+
+Akka -> Event => Save in DB
+
+Gist:
+Sender -> Command -> Actor (validates commands) -> Event (This event is stored in DB)
+
+## Architecture of Akka Persistence
+Persistent Actor
+  implements commands and events
+ it can persist events in a journal and can react to them in thread safe manner. It can be used to implement both command and event sourced actors.
+ when such actor is started or restarted journaled messages are replayed to actor
+Persistent View
+  Stateful actor that receives journeled messages written by persistent actors, but it wont generate new messages
+  It instead updates the internal state only from a persistent actor's replicated message stream.
+  Deprecated in favour of PersistentQuery
+Journal
+  Async write journal, a journal that stores a sequence of events sent to a persistent actor.
+  An application can control which messages a journal-ed and which are received by the persistent actor without being journaled.
+Snapshot
+   a snapshot store persists snapshots of a persistent actor. Snapshots are used for optimizing recovery times.
+   The storage backend of a snapshot store is plugable. The default snapshot storage plugin writes to a local filesystem.
+
+You can override recovery method to Recovery.None if you don't want recovery
+
+## Persistence Query
+In CQRS Pattern, persistence Query is nothing but implementing the Read side
+Only queries the journal
