@@ -117,3 +117,6 @@ Diff is ActorPath is name based but ActorRef is reference based (so unique)
 ## Actor Selection
 - Actor selection is created from name or path (not with reference)
 
+## Routing in Akka
+
+
